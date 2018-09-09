@@ -97,8 +97,8 @@ func exampleScrape(url string) {
 			}
 			data.Datareg = append(data.Datareg, d)
 			d.T = ""
-			d.Mid = ""
-			d.Final = ""
+			d.Mid = model.Date{}
+			d.Final = model.Date{}
 			d.Note = ""
 			d.DayTime = dt
 			stetuss = 1
@@ -114,11 +114,11 @@ func exampleScrape(url string) {
 			} else if strings.Contains(band, "สอบกลางภาค") {
 				s := strings.Split(band, "สอบกลางภาค:")
 				t := strings.TrimSpace(s[1])
-				d.Mid = t
+				d.Mid = model.Date{t, ""}
 			} else if strings.Contains(band, "สอบประจำภาค:") {
 				s := strings.Split(band, "สอบประจำภาค:")
 				t := strings.TrimSpace(s[1])
-				d.Final = t
+				d.Final = model.Date{t, ""}
 				stetuss = 2
 			}
 		}
@@ -257,6 +257,7 @@ func GetDataReg(cid string, c echo.Context) error {
 
 	exampleScrape("http://reg4.sut.ac.th/registrar/class_info_2.asp?backto=home&option=0&courseid=" + cid + "&acadyear=2561&semester=1&avs972184082=6")
 	//fmt.Println("#!", data)
+
 	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSONCharsetUTF8)
 	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
 	c.Response().WriteHeader(http.StatusOK)

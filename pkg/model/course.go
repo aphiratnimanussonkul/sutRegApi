@@ -23,10 +23,10 @@ func GetCourseid(d string) (string, error) {
 	var c Courseid
 	err := s.DB(database).C("courseid").FindId(objectID).One(&c)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("noon id")
 	}
 
 	v1 := c.CourseID[d]
-
+	fmt.Println(v1)
 	return v1, nil
 }

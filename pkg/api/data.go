@@ -1,7 +1,7 @@
 package api
 
 import (
-	"fmt"
+	"net/http"
 
 	"github.com/fooku/sutRegApi/pkg/model"
 	"github.com/fooku/sutRegApi/pkg/sprape"
@@ -12,16 +12,14 @@ func getCurse(c echo.Context) error {
 	// User ID from path `users/:id`
 	id := c.Param("id")
 
-	courseid, err := model.GetCourseid(id)
-	if err != err {
-		return err
+	courseid, _ := model.GetCourseid(id)
+
+	if courseid == "" {
+		return c.NoContent(http.StatusOK)
 	}
-	fmt.Println(courseid)
+	_ = sprape.GetDataReg(courseid, c)
 
-	err = sprape.GetDataReg(courseid, c)
-
-	return err
-
+	return nil
 	//fmt.Println(data)
 
 	// var content struct {
