@@ -114,15 +114,29 @@ func exampleScrape(url string) {
 			} else if strings.Contains(band, "สอบกลางภาค") {
 				s := strings.Split(band, "สอบกลางภาค:")
 				t := strings.TrimSpace(s[1])
-				d.Mid = model.Date{t, ""}
+				if t == "" {
+					d.Final = model.Date{"", ""}
+					return
+				}
+				x := strings.Split(t, " อาคาร")
+				date := strings.Split(x[0], " เวลา")
+				time := strings.TrimSpace(date[1])
+				d.Mid = model.Date{date[0], time}
 			} else if strings.Contains(band, "สอบประจำภาค:") {
 				s := strings.Split(band, "สอบประจำภาค:")
 				t := strings.TrimSpace(s[1])
-				d.Final = model.Date{t, ""}
+				if t == "" {
+					d.Final = model.Date{"", ""}
+					stetuss = 2
+					return
+				}
+				x := strings.Split(t, " อาคาร")
+				date := strings.Split(x[0], " เวลา")
+				time := strings.TrimSpace(date[1])
+				d.Final = model.Date{date[0], time}
 				stetuss = 2
 			}
 		}
-
 	})
 }
 
