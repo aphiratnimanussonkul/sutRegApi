@@ -1,0 +1,10 @@
+package: github.com/fooku/sutRegApi
+import:
+- package: github.com/PuerkitoBio/goquery
+  version: ^1.4.1
+- package: github.com/labstack/echo
+  version: ^3.3.6
+- package: golang.org/x/net
+  subpackages:
+  - html/charset
+- package: gopkg.in/mgo.v2
