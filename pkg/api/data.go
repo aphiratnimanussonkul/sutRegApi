@@ -19,6 +19,7 @@ func getCurse(c echo.Context) error {
 	if courseid == "" {
 		return c.NoContent(http.StatusOK)
 	}
+
 	go func() {
 		chRes1 <- sprape.GetDataReg(courseid, c)
 	}()

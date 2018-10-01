@@ -5,6 +5,10 @@ import (
 )
 
 // Courseid type
+// type Courseid struct {
+// 	CourseID map[string]string `bson:"courseid"`
+// }
+
 type Courseid struct {
 	ID       string `bson:"_id"`
 	CourseID string
