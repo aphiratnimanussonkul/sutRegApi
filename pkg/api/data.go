@@ -9,17 +9,21 @@ import (
 )
 
 func getCurse(c echo.Context) error {
+	chRes1 := make(chan error)
+
 	// User ID from path `users/:id`
 	id := c.Param("id")
 
-	courseid, _ := model.GetCourseid(id)
+	courseid, _ := model.GetCid(id)
 
 	if courseid == "" {
 		return c.NoContent(http.StatusOK)
 	}
-	_ = sprape.GetDataReg(courseid, c)
+	go func() {
+		chRes1 <- sprape.GetDataReg(courseid, c)
+	}()
 
-	return nil
+	return <-chRes1
 	//fmt.Println(data)
 
 	// var content struct {

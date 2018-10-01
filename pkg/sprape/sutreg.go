@@ -105,12 +105,13 @@ func exampleScrape(url string) {
 		}
 
 		if stetuss == 1 {
-			adddata(band)
+
 			//fmt.Println("two", i)
 			if strings.Contains(band, "อาจารย์") {
 				s := strings.Split(band, "อาจารย์:")
 				t := strings.TrimSpace(s[1])
 				d.T = t
+				return
 			} else if strings.Contains(band, "สอบกลางภาค") {
 				s := strings.Split(band, "สอบกลางภาค:")
 				t := strings.TrimSpace(s[1])
@@ -136,6 +137,7 @@ func exampleScrape(url string) {
 				d.Final = model.Date{date[0], time}
 				stetuss = 2
 			}
+			adddata(band)
 		}
 	})
 }
@@ -153,9 +155,9 @@ func adddata(band string) {
 		v2 := strings.Split(vvv[0], s[0])
 
 		time := strings.Split(v2[1], "จันทร์")
-		day := strings.Split(v2[1], time[1])
+		day := "จันทร์"
 
-		d.DayTime = append(d.DayTime, model.DayTime{day[1], time[1]})
+		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
 
 	} else if strings.Contains(band, "อังคาร") {
 		s := strings.Split(band, "อังคาร")
@@ -169,9 +171,9 @@ func adddata(band string) {
 		v2 := strings.Split(vvv[0], s[0])
 
 		time := strings.Split(v2[1], "อังคาร")
-		day := strings.Split(v2[1], time[1])
+		day := "อังคาร"
 
-		d.DayTime = append(d.DayTime, model.DayTime{day[0], time[1]})
+		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
 	} else if strings.Contains(band, "พุธ") {
 		s := strings.Split(band, "พุธ")
 		t := strings.TrimSpace(s[0])
@@ -184,9 +186,9 @@ func adddata(band string) {
 		v2 := strings.Split(vvv[0], s[0])
 
 		time := strings.Split(v2[1], "พุธ")
-		day := strings.Split(v2[1], time[1])
+		day := "พุธ"
 
-		d.DayTime = append(d.DayTime, model.DayTime{day[0], time[1]})
+		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
 	} else if strings.Contains(band, "พฤหัสบดี") {
 		s := strings.Split(band, "พฤหัสบดี")
 		t := strings.TrimSpace(s[0])
@@ -199,9 +201,9 @@ func adddata(band string) {
 		v2 := strings.Split(vvv[0], s[0])
 
 		time := strings.Split(v2[1], "พฤหัสบดี")
-		day := strings.Split(v2[1], time[1])
+		day := "พฤหัสบดี"
 
-		d.DayTime = append(d.DayTime, model.DayTime{day[0], time[1]})
+		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
 	} else if strings.Contains(band, "ศุกร์") {
 		s := strings.Split(band, "ศุกร์")
 		t := strings.TrimSpace(s[0])
@@ -214,9 +216,9 @@ func adddata(band string) {
 		v2 := strings.Split(vvv[0], s[0])
 
 		time := strings.Split(v2[1], "ศุกร์")
-		day := strings.Split(v2[1], time[1])
+		day := "ศุกร์"
 
-		d.DayTime = append(d.DayTime, model.DayTime{day[0], time[1]})
+		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
 	} else if strings.Contains(band, "เสาร์") {
 		s := strings.Split(band, "เสาร์")
 		t := strings.TrimSpace(s[0])
@@ -229,9 +231,9 @@ func adddata(band string) {
 		v2 := strings.Split(vvv[0], s[0])
 
 		time := strings.Split(v2[1], "เสาร์")
-		day := strings.Split(v2[1], time[1])
+		day := "เสาร์"
 
-		d.DayTime = append(d.DayTime, model.DayTime{day[0], time[1]})
+		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
 	} else if strings.Contains(band, "อาทิตย์") {
 		s := strings.Split(band, "อาทิตย์")
 		t := strings.TrimSpace(s[0])
@@ -244,9 +246,9 @@ func adddata(band string) {
 		v2 := strings.Split(vvv[0], s[0])
 
 		time := strings.Split(v2[1], "อาทิตย์")
-		day := strings.Split(v2[1], time[1])
+		day := "อาทิตย์"
 
-		d.DayTime = append(d.DayTime, model.DayTime{day[0], time[1]})
+		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
 	} else if strings.Contains(band, "ไม่มีข้อมูล") {
 		s := strings.Split(band, "ไม่มีข้อมูล")
 		t := strings.TrimSpace(s[0])
