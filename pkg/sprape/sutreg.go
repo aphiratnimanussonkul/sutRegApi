@@ -40,11 +40,11 @@ func exampleScrape(url string) {
 	checkk = 00
 	res, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("00-", err)
 	}
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+		log.Fatalf("status code error: %d %s 01 - ", res.StatusCode, res.Status)
 	}
 
 	contentType := res.Header.Get("Content-Type") // Optional, better guessing
@@ -53,7 +53,7 @@ func exampleScrape(url string) {
 	// Load the HTML document
 	doc, err := goquery.NewDocumentFromReader(utf8reader)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("02", err)
 	}
 
 	checkk := 99
@@ -108,10 +108,15 @@ func exampleScrape(url string) {
 
 			//fmt.Println("two", i)
 			if strings.Contains(band, "อาจารย์") {
-				s := strings.Split(band, "อาจารย์:")
-				t := strings.TrimSpace(s[1])
-				d.T = t
-				return
+				if strings.Contains(band, "หมายเหตุ") {
+
+				} else {
+					s := strings.Split(band, "อาจารย์:")
+					t := strings.TrimSpace(s[1])
+					d.T = t
+					return
+				}
+
 			} else if strings.Contains(band, "สอบกลางภาค") {
 				s := strings.Split(band, "สอบกลางภาค:")
 				t := strings.TrimSpace(s[1])

@@ -16,7 +16,7 @@ const (
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "7000"
+		port = "8100"
 	}
 	e := echo.New()
 	api.Mount(e)
