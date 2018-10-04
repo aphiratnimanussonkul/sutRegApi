@@ -276,7 +276,7 @@ func ch(band string) bool {
 func GetDataReg(cid string, c echo.Context) error {
 	defer deleteDatax()
 
-	exampleScrape("http://reg4.sut.ac.th/registrar/class_info_2.asp?backto=home&option=0&courseid=" + cid + "&acadyear=2561&semester=1&avs972184082=6")
+	exampleScrape("http://reg4.sut.ac.th/registrar/class_info_2.asp?backto=home&option=0&courseid=" + cid + "&acadyear=2561&semester=2&avs972184082=6")
 	//fmt.Println("#!", data)
 
 	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSONCharsetUTF8)
