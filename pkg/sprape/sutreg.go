@@ -13,31 +13,31 @@ import (
 	"golang.org/x/net/html/charset"
 )
 
-// dt  ไลด์ว่างของ dayTime
-var dt []model.DayTime
+// Request the HTML page.
+// func deleteDatax() {
+// 	var new1 model.Datajsonn
+// 	var new2 model.DReg
 
-var d model.DReg
-var data model.Datajsonn
+// 	data = new1
+// 	d = new2
+// }
 
-// stetus 0 > เริ่มใหม่, 1 > ต่อ
-var stetuss int
-var checkk int
-
-func deleteDatax() {
-	var new1 model.Datajsonn
-	var new2 model.DReg
-
-	data = new1
-	d = new2
-}
-
-func exampleScrape(url string) {
-	// Request the HTML page.
+func exampleScrape(url string) model.Datajsonn {
 
 	defer timer()()
 
+	// dt  ไลด์ว่างของ dayTime
+	var dt []model.DayTime
+
+	var d model.DReg
+	var data model.Datajsonn
+
+	// stetus 0 > เริ่มใหม่, 1 > ต่อ
+	var stetuss int
+	//var checkk int
+
 	stetuss = 0
-	checkk = 00
+	checkk := 00
 	res, err := http.Get(url)
 	if err != nil {
 		log.Fatal("00-", err)
@@ -56,7 +56,7 @@ func exampleScrape(url string) {
 		log.Fatal("02", err)
 	}
 
-	checkk := 99
+	checkk = 99
 
 	//type aa []string
 	// Find the review items
@@ -113,6 +113,7 @@ func exampleScrape(url string) {
 				} else {
 					s := strings.Split(band, "อาจารย์:")
 					t := strings.TrimSpace(s[1])
+
 					d.T = t
 					return
 				}
@@ -142,127 +143,112 @@ func exampleScrape(url string) {
 				d.Final = model.Date{date[0], time}
 				stetuss = 2
 			}
-			adddata(band)
+
+			//--------------------------------
+
+			if strings.Contains(band, "จันทร์") {
+				s := strings.Split(band, "จันทร์")
+				t := strings.TrimSpace(s[0])
+				if t != "" {
+					d.Sec = t
+				}
+				sum := cut(band, s[0])
+				time := strings.Split(sum, "จันทร์")
+				day := "จันทร์"
+
+				d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
+
+			} else if strings.Contains(band, "อังคาร") {
+				s := strings.Split(band, "อังคาร")
+				t := strings.TrimSpace(s[0])
+				if t != "" {
+					d.Sec = t
+				}
+				sum := cut(band, s[0])
+				time := strings.Split(sum, "อังคาร")
+				day := "อังคาร"
+
+				d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
+			} else if strings.Contains(band, "พุธ") {
+				s := strings.Split(band, "พุธ")
+				t := strings.TrimSpace(s[0])
+				if t != "" {
+					d.Sec = t
+				}
+				sum := cut(band, s[0])
+				time := strings.Split(sum, "พุธ")
+				day := "พุธ"
+
+				d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
+			} else if strings.Contains(band, "พฤหัสบดี") {
+				s := strings.Split(band, "พฤหัสบดี")
+				t := strings.TrimSpace(s[0])
+				if t != "" {
+					d.Sec = t
+				}
+				sum := cut(band, s[0])
+				time := strings.Split(sum, "พฤหัสบดี")
+				day := "พฤหัสบดี"
+
+				d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
+			} else if strings.Contains(band, "ศุกร์") {
+				s := strings.Split(band, "ศุกร์")
+				t := strings.TrimSpace(s[0])
+				if t != "" {
+					d.Sec = t
+				}
+				sum := cut(band, s[0])
+				time := strings.Split(sum, "ศุกร์")
+				day := "ศุกร์"
+
+				d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
+			} else if strings.Contains(band, "เสาร์") {
+				s := strings.Split(band, "เสาร์")
+				t := strings.TrimSpace(s[0])
+				if t != "" {
+					d.Sec = t
+				}
+				sum := cut(band, s[0])
+				time := strings.Split(sum, "เสาร์")
+				day := "เสาร์"
+
+				d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
+			} else if strings.Contains(band, "อาทิตย์") {
+				s := strings.Split(band, "อาทิตย์")
+				t := strings.TrimSpace(s[0])
+				if t != "" {
+					d.Sec = t
+				}
+				sum := cut(band, s[0])
+				time := strings.Split(sum, "อาทิตย์")
+				day := "อาทิตย์"
+
+				d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
+			} else if strings.Contains(band, "ไม่มีข้อมูล") {
+				s := strings.Split(band, "ไม่มีข้อมูล")
+				t := strings.TrimSpace(s[0])
+				if t != "" {
+					d.Sec = t
+				}
+				d.DayTime = append(d.DayTime, model.DayTime{"ไม่มีข้อมูล", "ไม่มีข้อมูล"})
+			}
 		}
 	})
+
+	return data
 }
 
-func adddata(band string) {
-	if strings.Contains(band, "จันทร์") {
-		s := strings.Split(band, "จันทร์")
-		t := strings.TrimSpace(s[0])
-		if t != "" {
-			d.Sec = t
-		}
-		v := strings.Split(band, "F")
-		vv := strings.Split(v[0], "B")
-		vvv := strings.Split(vv[0], "L")
-		v2 := strings.Split(vvv[0], s[0])
+func cut(band string, s string) string {
+	building := []string{"F", "B", "L", "M", "S", "N", "A", "E", "G", "C", "ห้อง", "สนาม", "อาคาร"}
 
-		time := strings.Split(v2[1], "จันทร์")
-		day := "จันทร์"
-
-		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
-
-	} else if strings.Contains(band, "อังคาร") {
-		s := strings.Split(band, "อังคาร")
-		t := strings.TrimSpace(s[0])
-		if t != "" {
-			d.Sec = t
-		}
-		v := strings.Split(band, "F")
-		vv := strings.Split(v[0], "B")
-		vvv := strings.Split(vv[0], "L")
-		v2 := strings.Split(vvv[0], s[0])
-
-		time := strings.Split(v2[1], "อังคาร")
-		day := "อังคาร"
-
-		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
-	} else if strings.Contains(band, "พุธ") {
-		s := strings.Split(band, "พุธ")
-		t := strings.TrimSpace(s[0])
-		if t != "" {
-			d.Sec = t
-		}
-		v := strings.Split(band, "F")
-		vv := strings.Split(v[0], "B")
-		vvv := strings.Split(vv[0], "L")
-		v2 := strings.Split(vvv[0], s[0])
-
-		time := strings.Split(v2[1], "พุธ")
-		day := "พุธ"
-
-		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
-	} else if strings.Contains(band, "พฤหัสบดี") {
-		s := strings.Split(band, "พฤหัสบดี")
-		t := strings.TrimSpace(s[0])
-		if t != "" {
-			d.Sec = t
-		}
-		v := strings.Split(band, "F")
-		vv := strings.Split(v[0], "B")
-		vvv := strings.Split(vv[0], "L")
-		v2 := strings.Split(vvv[0], s[0])
-
-		time := strings.Split(v2[1], "พฤหัสบดี")
-		day := "พฤหัสบดี"
-
-		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
-	} else if strings.Contains(band, "ศุกร์") {
-		s := strings.Split(band, "ศุกร์")
-		t := strings.TrimSpace(s[0])
-		if t != "" {
-			d.Sec = t
-		}
-		v := strings.Split(band, "F")
-		vv := strings.Split(v[0], "B")
-		vvv := strings.Split(vv[0], "L")
-		v2 := strings.Split(vvv[0], s[0])
-
-		time := strings.Split(v2[1], "ศุกร์")
-		day := "ศุกร์"
-
-		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
-	} else if strings.Contains(band, "เสาร์") {
-		s := strings.Split(band, "เสาร์")
-		t := strings.TrimSpace(s[0])
-		if t != "" {
-			d.Sec = t
-		}
-		v := strings.Split(band, "F")
-		vv := strings.Split(v[0], "B")
-		vvv := strings.Split(vv[0], "L")
-		v2 := strings.Split(vvv[0], s[0])
-
-		time := strings.Split(v2[1], "เสาร์")
-		day := "เสาร์"
-
-		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
-	} else if strings.Contains(band, "อาทิตย์") {
-		s := strings.Split(band, "อาทิตย์")
-		t := strings.TrimSpace(s[0])
-		if t != "" {
-			d.Sec = t
-		}
-		v := strings.Split(band, "F")
-		vv := strings.Split(v[0], "B")
-		vvv := strings.Split(vv[0], "L")
-		v2 := strings.Split(vvv[0], s[0])
-
-		time := strings.Split(v2[1], "อาทิตย์")
-		day := "อาทิตย์"
-
-		d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
-	} else if strings.Contains(band, "ไม่มีข้อมูล") {
-		s := strings.Split(band, "ไม่มีข้อมูล")
-		t := strings.TrimSpace(s[0])
-		if t != "" {
-			d.Sec = t
-		}
-		d.DayTime = append(d.DayTime, model.DayTime{"ไม่มีข้อมูล", "ไม่มีข้อมูล"})
+	for _, b := range building {
+		v := strings.Split(band, b)
+		band = v[0]
 	}
+	v2 := strings.Split(band, s)
+	return v2[1]
 }
+
 func ch(band string) bool {
 	if strings.Contains(band, "จันทร์") {
 		return true
@@ -273,16 +259,16 @@ func ch(band string) bool {
 }
 
 // GetDataReg is schedule data from reg
-func GetDataReg(cid string, c echo.Context) error {
-	defer deleteDatax()
+func GetDataReg(cid string, c echo.Context, semester string, acadyear string) error {
+	//defer deleteDatax()
 
-	exampleScrape("http://reg4.sut.ac.th/registrar/class_info_2.asp?backto=home&option=0&courseid=" + cid + "&acadyear=2561&semester=2&avs972184082=6")
+	data := exampleScrape("http://reg2.sut.ac.th/registrar/class_info_2.asp?backto=home&option=0&courseid=" + cid + "&acadyear=" + acadyear + "&semester=" + semester + "&avs972184082=6")
 	//fmt.Println("#!", data)
 
 	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSONCharsetUTF8)
 	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
 	c.Response().WriteHeader(http.StatusOK)
-	return json.NewEncoder(c.Response()).Encode(&data)
+	return json.NewEncoder(c.Response()).Encode(data)
 
 }
 
