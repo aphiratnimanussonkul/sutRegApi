@@ -145,6 +145,10 @@ func exampleScrape(url string) model.Datajsonn {
 			}
 
 			//--------------------------------
+			//--------------------------------
+			if strings.Contains(band, "หมายเหตุ") {
+				return
+			}
 
 			if strings.Contains(band, "จันทร์") {
 				s := strings.Split(band, "จันทร์")
@@ -213,6 +217,7 @@ func exampleScrape(url string) model.Datajsonn {
 				day := "เสาร์"
 
 				d.DayTime = append(d.DayTime, model.DayTime{day, time[1]})
+
 			} else if strings.Contains(band, "อาทิตย์") {
 				s := strings.Split(band, "อาทิตย์")
 				t := strings.TrimSpace(s[0])
@@ -231,6 +236,7 @@ func exampleScrape(url string) model.Datajsonn {
 					d.Sec = t
 				}
 				d.DayTime = append(d.DayTime, model.DayTime{"ไม่มีข้อมูล", "ไม่มีข้อมูล"})
+
 			}
 		}
 	})
@@ -261,7 +267,6 @@ func ch(band string) bool {
 // GetDataReg is schedule data from reg
 func GetDataReg(cid string, c echo.Context, semester string, acadyear string) error {
 	//defer deleteDatax()
-
 	data := exampleScrape("http://reg2.sut.ac.th/registrar/class_info_2.asp?backto=home&option=0&courseid=" + cid + "&acadyear=" + acadyear + "&semester=" + semester + "&avs972184082=6")
 	//fmt.Println("#!", data)
 
