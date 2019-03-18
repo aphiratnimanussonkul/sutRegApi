@@ -2,6 +2,7 @@ package sprape
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -40,11 +41,11 @@ func exampleScrape(url string) model.Datajsonn {
 	checkk := 00
 	res, err := http.Get(url)
 	if err != nil {
-		log.Fatal("00-", err)
+		fmt.Println(err)
 	}
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		log.Fatalf("status code error: %d %s 01 - ", res.StatusCode, res.Status)
+		fmt.Println("status code error: %d %s 01 - ", res.StatusCode, res.Status)
 	}
 
 	contentType := res.Header.Get("Content-Type") // Optional, better guessing
@@ -53,7 +54,7 @@ func exampleScrape(url string) model.Datajsonn {
 	// Load the HTML document
 	doc, err := goquery.NewDocumentFromReader(utf8reader)
 	if err != nil {
-		log.Fatal("02", err)
+		fmt.Println("02", err)
 	}
 
 	checkk = 99
